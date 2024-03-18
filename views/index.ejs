@@ -4,29 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buscador de Livros</title>
-  <!-- Adicionando Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <style>
-    /* CSS para centralizar o conteúdo */
     body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      background-color: rgb(158, 167, 241); /* Fundo vermelho */
-      margin: 0; /* Removendo margem padrão do body */
+      background-color: rgb(158, 167, 241);
+      margin: 0; 
     }
-    /* Estilo adicional para o quadrado */
     .container {
-      margin-top: 1px; /* Espaçamento superior */
-      box-sizing: border-box; /* Incluir borda e padding na largura total */
+      margin-top: 1px;
+      box-sizing: border-box; 
       display: flex;
       flex-direction: column;
     }
-    /* Estilo adicional para o botão de busca */
     .btn-buscar {
       margin-top: 10px; 
     }
-    /* Estilo adicional para a listagem de livros */
     .book-list {
       margin-top: 20px;
       padding: 10px;
@@ -94,7 +89,7 @@
           const titleCheck = document.getElementById("titleCheck"); // Obtém as referências dos checkboxes 
           const yearCheck = document.getElementById("yearCheck");
 
-          const searchByTitle = titleCheck.checked;  // verifica que os checkboxes estçao marcados
+          const searchByTitle = titleCheck.checked;  // verifica que os checkboxes estão marcados
           const searchByYear = yearCheck.checked;
 
           let params = "";
