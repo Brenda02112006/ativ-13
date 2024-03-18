@@ -66,18 +66,51 @@
       <button type="submit" class="btn btn-primary btn-buscar">Buscar</button>
     </form>
 
-    <% if (books && books.length > 0) { %>
+    <% if (books && books.length > 0) { %> 
       <div class="book-list">
         <h3>Resultados da Busca:</h3>
         <ul>
           <% books.forEach(book => { %>
-            <li><%= book.title %> - <%= book.author %> (<%= book.year %>)</li>
+            <li><%= book.id %> - <%= book.title %> - <%= book.author %> (<%= book.year %>)</li>
           <% }) %>
         </ul>
       </div>
     <% } else if (books && books.length === 0) { %>
       <p class="book-list">Nenhum livro encontrado.</p>
     <% } %>
+    
   </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() { // Adiciona um ouvinte de evento
+      const form = document.querySelector("form"); // Seleciona o formulário na página
+
+      form.addEventListener("submit", function(event) {
+          event.preventDefault();   //o comportamento padrão de submissão do formulário
+
+          const titleInput = document.getElementById("title"); //elementos de entrada [title e year]
+          const yearInput = document.getElementById("year");
+
+          const titleCheck = document.getElementById("titleCheck"); // Obtém as referências dos checkboxes 
+          const yearCheck = document.getElementById("yearCheck");
+
+          const searchByTitle = titleCheck.checked;  // verifica que os checkboxes estçao marcados
+          const searchByYear = yearCheck.checked;
+
+          let params = "";
+
+          if (searchByTitle) { // Se o checkbox de busca por título estiver marcado, adiciona o parâmetro 'title' à string params
+              params += `title=${titleInput.value}`;
+          }
+
+          if (searchByYear) {
+              params += `year=${yearInput.value}`;
+          }
+          // Redireciona o usuário para a rota de busca com os parâmetros adequados
+          window.location.href = `/search?${params}`;
+      });
+  });
+</script>
+
 </body>
 </html>
