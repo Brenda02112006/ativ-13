@@ -1,15 +1,9 @@
-// Importando o framework Express
 const express = require('express');
-// Inicializando o aplicativo Express
 const app = express();
-// Definindo a porta em que o servidor irá rodar
 const port = 3000;
 
-// Configurando o mecanismo de visualização para EJS
 app.set('view engine', 'ejs');
-// Middleware para analisar solicitações JSON
 app.use(express.json());
-// Middleware para analisar solicitações codificadas de formulário
 app.use(express.urlencoded({ extended: true }));
 
 // Banco de dados simulado de livros
@@ -28,14 +22,13 @@ const booksDB = [
 
 // Rota para a página inicial
 app.get('/', (req, res) => {
-  // Renderiza a página inicial sem nenhum livro
-  res.render('index', { books: null });
+  res.render('index', { books: booksDB }); // Renderiza a página inicial com todos os livros
+
 });
 
 // Rota para realizar buscas
 app.get('/search', (req, res) => {
-  // Extrai os parâmetros da consulta
-  const { title, year } = req.query;
+  const { title, year } = req.query; // Extrai os parâmetros da consulta
   let results = [];
 
   // Realiza a busca com base no título
@@ -49,12 +42,13 @@ app.get('/search', (req, res) => {
   // Verifica se foram encontrados resultados
   if (results.length === 0) {
     // Se não foram encontrados resultados, renderiza a página inicial com uma mensagem
-    res.render('index', { books: null, mensagem: 'Nenhum livro encontrado para a busca realizada.' });
+    res.render('index', { books: [], mensagem: 'Nenhum livro encontrado para a busca realizada.' });
   } else {
     // Se foram encontrados resultados, renderiza a página inicial com os livros encontrados
     res.render('index', { books: results });
   }
 });
+
 
 // Inicia o servidor na porta especificada
 app.listen(port, () => {
