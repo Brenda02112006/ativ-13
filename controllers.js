@@ -1,3 +1,6 @@
+
+//FUNÇÃO QUE DEFINE ROTAS DA APLICAÇÃO = renderhomepage e searchbooks
+
 const booksDB = [
     { id: 1, title: 'Jesus, o maior psicólogo que já existiu', author: 'Mark W. Baker', year: 2020 },
     { id: 2, title: 'A travessia', author: 'William P. Youg', year: 2012 },
@@ -11,21 +14,23 @@ const booksDB = [
     { id: 10, title: 'A Revolução dos Bichos', author: 'George Orwell', year: 1945 }
   ];
   
-  function renderHomePage(req, res) {
-    res.render('index', { books: booksDB });
+  //rederiza para a página inicial
+  function renderHomePage(req, res) { 
+    res.render('index', { books: booksDB }); //arquivo index para matriz e livros
   }
   
+  //página inicial com os livros
   function searchBooks(req, res) {
     const { title, year } = req.query;
     let results = [];
   
-    if (title) {
+    if (title) { // se receber title, vai filtrar o titulo
       results = booksDB.filter(book => book.title && book.title.toLowerCase().includes(title.toLowerCase()));
     } else if (year) {
       results = booksDB.filter(book => book.year === parseInt(year));
     }
   
-    if (results.length === 0) {
+    if (results.length === 0) { // se algum livro foi encontrado
       res.render('index', { books: [], mensagem: 'Nenhum livro encontrado para a busca realizada.' });
     } else {
       res.render('index', { books: results });
