@@ -77,32 +77,45 @@
   </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() { // Adiciona um ouvinte de evento
-      const form = document.querySelector("form"); // Seleciona o formulário na página
-
+  document.addEventListener("DOMContentLoaded", function() {
+      // Aguarda o carregamento completo do DOM antes de executar o código
+      
+      const form = document.querySelector("form");
+      // Seleciona o elemento de formulário na página
+      
       form.addEventListener("submit", function(event) {
-          event.preventDefault();   //o comportamento padrão de submissão do formulário
-
-          const titleInput = document.getElementById("title"); //elementos de entrada [title e year]
+          // Adiciona um ouvinte de evento para o evento de submissão do formulário
+          
+          event.preventDefault();
+          // Impede o comportamento padrão de submissão do formulário (recarregar a página)
+          
+          const titleInput = document.getElementById("title");
           const yearInput = document.getElementById("year");
-
-          const titleCheck = document.getElementById("titleCheck"); // Obtém as referências dos checkboxes 
+          // Obtém os elementos de entrada do título e do ano do formulário
+          
+          const titleCheck = document.getElementById("titleCheck");
           const yearCheck = document.getElementById("yearCheck");
-
-          const searchByTitle = titleCheck.checked;  // verifica que os checkboxes estão marcados
+          // Obtém os elementos de caixa de seleção para buscar por título e por ano
+          
+          const searchByTitle = titleCheck.checked;
           const searchByYear = yearCheck.checked;
-
+          // Verifica se as caixas de seleção estão marcadas
+          
           let params = "";
-
-          if (searchByTitle) { // Se o checkbox de busca por título estiver marcado, adiciona o parâmetro 'title' à string params
+          // Inicializa uma string para armazenar os parâmetros de busca
+          
+          if (searchByTitle) {
               params += `title=${titleInput.value}`;
           }
-
+          // Se a caixa de seleção para buscar por título estiver marcada, adiciona o parâmetro "title" à string params
+          
           if (searchByYear) {
               params += `year=${yearInput.value}`;
           }
-          // Redireciona o usuário para a rota de busca com os parâmetros adequados
+          // Se a caixa de seleção para buscar por ano estiver marcada, adiciona o parâmetro "year" à string params
+          
           window.location.href = `/search?${params}`;
+          // Redireciona o navegador para a URL de busca com os parâmetros adequados
       });
   });
 </script>
