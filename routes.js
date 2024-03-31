@@ -1,17 +1,17 @@
-const express = require('express');
-const controllers = require('./controllers');
-const middlewares = require('./middlewares'); // correção do nome do arquivo
-const router = express.Router();
+// define as rotas da APLICAÇÃO 
 
-router.get('/perfil/:email', middlewares.verificarAutenticacao, controllers.renderProfile);
-router.get('/usuarios', middlewares.verificarAutenticacao, controllers.renderUsers);
-router.post('/excluir/:email', middlewares.verificarAutenticacao, controllers.deleteUser);
-router.get('/register', controllers.renderRegister);
-router.post('/register', controllers.registerUser);
-router.get('/', controllers.renderLogin);
-router.post('/login', controllers.loginUser); // Adicionando a rota para a função loginUser
-router.get('/logout', controllers.logoutUser);
+//duas rotas: '/' e /search'
 
-module.exports = app => {
-    app.use('/', router);
+const { renderHomePage, searchBooks } = require('./controllers');
+
+module.exports = function (app) {
+  // Rota para a página inicial
+  app.get('/', (req, res) => {
+    renderHomePage(req, res); // Aqui está ocorrendo o erro
+  });
+
+  // Rota para realizar buscas
+  app.get('/search', (req, res) => {
+    searchBooks(req, res);
+  });
 };
