@@ -1,13 +1,13 @@
 const express = require('express');
-const mysql = require('mysql2');
+const mysql = require('mysql2'); // LEMBRAR: $ npm install mysql
 
 const app = express();
 // Configuração da conexão com o banco de dados
 const connection = mysql.createConnection({
-host: 'roundhouse.proxy.rlwy.net',
+host: 'viaduct.proxy.rlwy.net',
 user: 'root',
-port: 30376,
-password: 'hZBdysauZaMVWubVXvHLYofnQLAxyFHT',
+password: 'rznXGsyAVQxXlLQUOvprezqBpjOISiRb',
+port: 57181,
 database: 'railway'
 });
 // Conexão com o banco de dados
