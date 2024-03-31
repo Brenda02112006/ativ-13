@@ -1,75 +1,40 @@
-const bcrypt = require('bcrypt');
-let users = [];
 
-const userController = {
-    renderProfile: (req, res) => {
-        const { email } = req.params;
-        const user = users.find(user => user.email === email);
-        if (!user) {
-            return res.status(404).send('Usuário não encontrado');
-        }
-        // Passar a variável 'users' para o arquivo perfil.ejs
-        res.render('perfil', { name: user.name, email: user.email, users });
-    },
-    renderUsers: (req, res) => {
-        res.render('usuarios', { users });
-    },
-    deleteUser: (req, res) => {
-        const email = req.params.email;
-        const index = users.findIndex(user => user.email === email);
-        if (index !== -1) {
-            users.splice(index, 1);
-        }
-        res.redirect('/usuarios');
-    },
-    renderRegister: (req, res) => {
-        res.render('registro', { errorMessage: '' });
-    },
-    registerUser: (req, res) => {
-        const { name, email, password, confirmPassword } = req.body;
-        if (password !== confirmPassword) {
-            return res.render('registro', { errorMessage: 'As senhas não coincidem' });
-        }
-        const existingUser = users.find(user => user.email === email);
-        if (existingUser) {
-            return res.render('registro', { errorMessage: 'Este email já está cadastrado' });
-        }
-        const newUser = { name, email, password: bcrypt.hashSync(password, 10) }; // criptografa a senha antes de armazenar
-        users.push(newUser);
-        res.redirect(`/perfil/${newUser.email}`);
-    },
-    renderLogin: (req, res) => {
-        res.render('index', { errorMessage: '' });
-    },
-    loginUser: (req, res) => {
-        const { email, password } = req.body;
-        
-        // Verifica se um usuário com o email fornecido existe na base de dados
-        const user = users.find(user => user.email === email);
-        
-        if (user) {
-            // Se o usuário existe, compara a senha fornecida com a senha armazenada usando bcrypt
-            if (bcrypt.compareSync(password, user.password)) {
-                // Se as senhas coincidem, estabelece uma sessão para o usuário autenticado
-                req.session.usuario = user;
-                // Redireciona para a página de perfil ou outra página relevante
-                return res.redirect('/perfil/' + user.email);
-            }
-        }
-        
-        // Se as credenciais forem inválidas, renderiza a página de login novamente com uma mensagem de erro
-        return res.render('index', { errorMessage: 'Email ou senha inválidos' });
-    },
-    logoutUser: (req, res) => {
-        req.session.destroy(err => {
-            if (err) {
-                console.error('Erro ao fazer logout:', err);
-                res.send('Erro ao fazer logout');
-            } else {
-                res.redirect('/');
-            }
-        });
-    },
+//FUNÇÃO QUE DEFINE ROTAS DA APLICAÇÃO = renderhomepage e searchbooks
+
+const booksDB = [
+  { id: 1, title: 'Jesus, o maior psicólogo que já existiu', author: 'Mark W. Baker', year: 2020 },
+  { id: 2, title: 'A travessia', author: 'William P. Youg', year: 2012 },
+  { id: 3, title: 'O diário de Anne Frank', author: 'Anne Frank', year: 1950 },
+  { id: 4, title: 'o velho e o mar', author: 'Ernest Hemingway', year: 1950 },
+  { id: 5, title: 'O Senhor dos Anéis', author: 'J.R.R. Tolkien', year: 1954 },
+  { id: 6, title: 'Harry Potter e a Pedra Filosofal', author: 'J.K. Rowling', year: 1997 },
+  { id: 7, title: '1984', author: 'George Orwell', year: 1949 },
+  { id: 8, title: 'Dom Quixote', author: 'Miguel de Cervantes', year: 1605 },
+  { id: 9, title: 'Cem anos de Solidão', author: 'Gabriel García Márquez', year: 1967 },
+  { id: 10, title: 'A Revolução dos Bichos', author: 'George Orwell', year: 1945 }
+];
+
+//rederiza para a página inicial
+function renderHomePage(req, res) { 
+  res.render('index', { books: booksDB }); //arquivo index para matriz e livros
+}
+
+//página inicial com os livros
+function searchBooks(req, res) {
+  const { title, year } = req.query;
+  let results = [];
+
+  if (title) { // se receber title, vai filtrar o titulo
+    results = booksDB.filter(book => book.title && book.title.toLowerCase().includes(title.toLowerCase()));
+  } else if (year) {
+    results = booksDB.filter(book => book.year === parseInt(year));
+  }
+
+  res.render('index', { books: results }); // Sempre envie a variável books
+}
+
+
+module.exports = {
+  renderHomePage,
+  searchBooks
 };
-
-module.exports = userController;
